@@ -1,13 +1,10 @@
-<h1>This is User {{ request.user.username }}</h1>
-
+<h1>Welcome {{ request.user.username }}</h1>
+<br>
+<h2>ID: {{ request.user.id }}</h2>
+<br>
 <a href="{% url 'log_out' %}">Logout</a>
 
-<br>
-<br>
 
-{{ request.user }}
-
-<h2>Token: {{ token }}</h2>
 
 <!-- {% if request.user.is_superuser %}
 <h2>Token: {{ token }}</h2>

@@ -27,7 +27,7 @@ SECRET_KEY = conf.secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['faazi.ir', '46.101.255.11']
+ALLOWED_HOSTS = ['faazi.ir', 'localhost']
 
 
 # Application definition

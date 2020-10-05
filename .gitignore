@@ -7,6 +7,7 @@ db.sqlite3
 
 # C extensions
 *.so
+leitner/conf.py
 
 # Distribution / packaging
 .Python

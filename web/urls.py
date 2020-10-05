@@ -6,4 +6,5 @@ urlpatterns = [
   url(r'^login/$', views.log_in, name= 'log_in'),
   url(r'^logout/$', views.log_out, name= 'log_out'),
   url(r'^home/$', views.home, name= 'home'),
+  url(r'^$', views.log_in, name= 'index'),
 ]

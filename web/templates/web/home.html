@@ -1,3 +1,16 @@
 <h1>This is User {{ request.user.username }}</h1>
 
 <a href="{% url 'log_out' %}">Logout</a>
+
+<br>
+<br>
+
+{{ request.user }}
+
+<h2>Token: {{ token }}</h2>
+
+<!-- {% if request.user.is_superuser %}
+<h2>Token: {{ token }}</h2>
+{% else %}
+<h2>You are not a superuser</h2>
+{% endif %} -->

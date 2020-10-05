@@ -8,7 +8,11 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def home(request):
-    return render(request, 'web/home.html')
+    context = {}
+    if request.user.is_superuser:
+        token = "asdkaljhdflsf"
+        context['token'] = token
+    return render(request, 'web/home.html', context=context)
 
 
 @csrf_exempt
@@ -23,7 +27,7 @@ def register(request):
         password = request.POST['pass']
         #  Register
         user = User.objects.create_user(username=username, email=email, password=password)
-
+        return redirect('/login/')
     elif request.method == 'GET':
         return render(request, 'web/register.html')
 

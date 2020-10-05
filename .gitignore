@@ -8,6 +8,8 @@ db.sqlite3
 # C extensions
 *.so
 leitner/conf.py
+static/
+log/*
 
 # Distribution / packaging
 .Python

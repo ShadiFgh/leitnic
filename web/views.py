@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from web.forms import SignUpForm
 # Create your views here.
 
 def home(request):
@@ -15,21 +17,7 @@ def home(request):
     return render(request, 'web/home.html', context=context)
 
 
-@csrf_exempt
-def register(request):
-    if request.method == 'POST':
-        print(request.POST)
-        print("Username: ", request.POST['username'])
-        print("Email: ", request.POST['email'])
-        print("Password: ", request.POST['pass'])
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['pass']
-        #  Register
-        user = User.objects.create_user(username=username, email=email, password=password)
-        return redirect('/login/')
-    elif request.method == 'GET':
-        return render(request, 'web/register.html')
+
 
 
 @csrf_exempt
@@ -55,3 +43,19 @@ def log_out(request):
     if request.method == 'GET':
         logout(request)
         return render(request, 'web/logout.html')
+
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+    return render(request, 'web/signup.html', {'form': form})

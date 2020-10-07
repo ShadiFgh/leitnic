@@ -45,7 +45,7 @@ def log_out(request):
         return render(request, 'web/logout.html')
 
 
-
+@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)

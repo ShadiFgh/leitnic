@@ -7,6 +7,12 @@ from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from web.forms import SignUpForm
+from django.contrib.sites.shortcuts import get_current_site
+from django.shortcuts import render, redirect
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.template.loader import render_to_string
+
 # Create your views here.
 
 def home(request):
@@ -59,3 +65,7 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'web/signup.html', {'form': form})
+
+
+def send_sms(request):
+    pass

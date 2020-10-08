@@ -1,11 +1,12 @@
 from django.conf.urls import url
 from . import views
-from web import views as web_views
 
 urlpatterns = [
+  url(r'^$', views.log_in, name= 'index'),
   url(r'^login/$', views.log_in, name= 'log_in'),
   url(r'^logout/$', views.log_out, name= 'log_out'),
   url(r'^home/$', views.home, name= 'home'),
-  url(r'^$', views.log_in, name= 'index'),
-  url(r'^signup/$', web_views.signup, name='signup'),
+  url(r'^signup/$', views.signup, name='signup'),
+  # TEST
+  url(r'sendsms/$', views.send_sms, name= 'sendsms'),
 ]

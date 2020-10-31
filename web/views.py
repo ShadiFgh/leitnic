@@ -29,8 +29,9 @@ def home(request):
 @csrf_exempt
 def log_in(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        email = request.POST['email']
         password = request.POST['pass']
+        username = User.objects.all().filter(email=email)[0].username
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)

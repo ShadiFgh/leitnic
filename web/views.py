@@ -1,29 +1,19 @@
-from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
-from json import JSONEncoder
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from web.forms import SignUpForm
-from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
-from django.template.loader import render_to_string
+from .models import Category
+
 
 # Create your views here.
 
 def home(request):
-    context = {}
-    if request.user.is_superuser:
-        token = "asdkaljhdflsf"
-        context['token'] = token
+    latest_categories_list = Category.objects.order_by('-pub_date')[:5]
+    context = {'latest_categories_list': latest_categories_list}
+
     return render(request, 'web/home.html', context=context)
-
-
-
 
 
 @csrf_exempt
@@ -70,5 +60,3 @@ def signup(request):
 
 def send_sms(request):
     pass
-
-    

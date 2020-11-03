@@ -2,12 +2,15 @@
 <br>
 <h2>ID: {{ request.user.id }}</h2>
 <br>
-<a href="{% url 'log_out' %}">Logout</a>
-
-
-
-<!-- {% if request.user.is_superuser %}
-<h2>Token: {{ token }}</h2>
+{% if latest_categories_list %}
+    <ul>
+    {% for category in latest_categories_list %}
+        <li><a>{{ category.name }}</a></li>
+    {% endfor %}
+    </ul>
 {% else %}
-<h2>You are not a superuser</h2>
-{% endif %} -->
+    <p>No categories are available.</p>
+{% endif %}
+<br>
+
+<a href="{% url 'log_out' %}">Logout</a>

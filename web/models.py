@@ -8,3 +8,12 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Image(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.CharField(max_length=200)
+
+
+    def __str__(self):
+        return self.text

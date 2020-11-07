@@ -3,17 +3,49 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from web.forms import SignUpForm
-from django.shortcuts import render, redirect
-from .models import Category
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Category, User
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.decorators import login_required
+import os
 
 
 # Create your views here.
-
+@login_required()
 def home(request):
     latest_categories_list = Category.objects.order_by('-pub_date')[:5]
     context = {'latest_categories_list': latest_categories_list}
 
     return render(request, 'web/home.html', context=context)
+
+
+@login_required()
+def simple_upload(request):
+    dirName = f'media/{request.user.username}'
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        if not os.path.exists(dirName):
+            os.mkdir(dirName)
+        filename = fs.save(request.user.username + '/' + myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'web/profile.html', {
+            'uploaded_file_url': uploaded_file_url
+        })
+    return render(request, 'web/profile.html')
+
+
+def view_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    email = user.email
+    folder = 'media/' + username + '/'
+    arr = os.listdir(folder)
+    images = {}
+    for i in range(len(arr)):
+        images[i] = folder + arr[i]
+
+    return render(request, 'web/view_profile.html', context={'images': images})
 
 
 @csrf_exempt
@@ -29,6 +61,8 @@ def log_in(request):
         else:
             return HttpResponse("User not found.")
     elif request.method == 'GET':
+        print(request)
+        print(request.user.pk)
         if request.user.is_authenticated:
             return redirect('/home/')
         else:

@@ -6,4 +6,4 @@
 ## TODO:
 * My prospective tasks
 
-- [x] Users shouldn't be able to sign up with the same email address.
+- [ ] Users shouldn't be able to sign up with the same email address.

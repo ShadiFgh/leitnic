@@ -9,6 +9,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 import os
+from .models import Image
 
 
 # Create your views here.
@@ -30,22 +31,23 @@ def simple_upload(request):
             os.mkdir(dirName)
         filename = fs.save(request.user.username + '/' + myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
-        return render(request, 'web/profile.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
+
+        image = Image(author=request.user, title=myfile.name,
+                      file=filename,
+                      file_path=uploaded_file_url, )
+        image.save()
+
+        return render(request, 'web/profile.html')
     return render(request, 'web/profile.html')
 
 
 def view_profile(request, username):
     user = get_object_or_404(User, username=username)
     email = user.email
-    folder = 'media/' + username + '/'
-    arr = os.listdir(folder)
-    images = {}
-    for i in range(len(arr)):
-        images[i] = folder + arr[i]
+    user_images = Image.objects.all().filter(author=user)
+    context = {'user_images': user_images}
+    return render(request, 'web/view_profile.html', context=context)
 
-    return render(request, 'web/view_profile.html', context={'images': images})
 
 
 @csrf_exempt

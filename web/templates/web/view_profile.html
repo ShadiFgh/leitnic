@@ -1,2 +1,7 @@
-{{ images }}
+{% for image in user_images %}
+<h3>{{ image.file_path }}</h3>
+<img src="{{ image.file_path }}" alt="image">
+<h4>{{ image.author }}</h4>
+<h4>{{ image.title }}</h4>
+{% endfor %}
 

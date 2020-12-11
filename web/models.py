@@ -11,9 +11,11 @@ class Category(models.Model):
 
 
 class Image(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.CharField(max_length=200)
-
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    file = models.FileField(upload_to='media/', null=True)
+    file_path = models.CharField(max_length=100, default='media/')
 
     def __str__(self):
-        return self.text
+        return "{}-{}".format(self.author.username, self.title)
+
